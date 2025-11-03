@@ -5,6 +5,7 @@ public class TestKitData
 {
     public string version;
     public KitItem[] kits;
+
 }
 
 [Serializable]
@@ -14,5 +15,6 @@ public class KitItem
     public string display;
     public int subtext;  // ← 新しく追加！
     public bool available;
+    public int order; 
 }
 
