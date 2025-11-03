@@ -17,8 +17,15 @@ public sealed class MenuScreen : IState
         view.nextButton.onClick.AddListener(OnNextClicked);
     }
 
-    public void Enter() { view.ShowMenu(); }
-    public void Exit() { }
+    public void Enter()
+    {
+        view.ShowMenu();
+        UpdateLabels();
+    }
+    public void Exit()
+    {
+        view.nextButton.onClick.RemoveListener(OnNextClicked);
+    }
     public void Tick() { }
 
     public void GoOption() => fsm.Change(new OptionScreen(fsm, view, presenter));
@@ -29,18 +36,27 @@ public sealed class MenuScreen : IState
         if (presenter.KitCount == 0) return;
 
         currentIndex = (currentIndex + 1) % presenter.KitCount;
-        UpdateLabel();
+        UpdateLabels();
     }
 
-    private void UpdateLabel()
+    private void UpdateLabels()
     {
-        var kit = presenter.GetKit(currentIndex);
-        if (kit == null)
+        if (presenter.KitCount == 0)
         {
-            view.label.text = "No data";
+            view.currentLabel.text = "No Data";
+            view.nextLabel.text = "-";
             return;
         }
 
-        view.label.text = $"{kit.display}";
+        // 現在と次を取得
+        var currentKit = presenter.GetKit(currentIndex);
+        var nextIndex = (currentIndex + 1) % presenter.KitCount;
+        var nextKit = presenter.GetKit(nextIndex);
+
+        // ボタンに現在の試薬名を表示
+        view.currentLabel.text = currentKit.display;
+
+        // ラベルに「次の試薬名」を表示
+        view.nextLabel.text = $"Next: {nextKit.display}";
     }
 }

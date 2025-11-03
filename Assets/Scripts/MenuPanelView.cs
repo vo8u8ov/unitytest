@@ -9,7 +9,8 @@ public class MenuPanelView : MonoBehaviour
     [SerializeField] private GameObject helpPanel;
 
     public Button nextButton;   // 試薬を切り替えるボタン
-    public TextMeshProUGUI label;          // 試薬名を表示するテキスト
+    public TextMeshProUGUI currentLabel;          // ボタン上のテキスト（Current）
+    public TextMeshProUGUI nextLabel;             // 次に切り替わる試薬名（Next）
     public void ShowMenu()
     {
         menuPanel.SetActive(true);
